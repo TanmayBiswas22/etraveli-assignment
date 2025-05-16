@@ -1,4 +1,4 @@
-export type Film = {
+export type Movie = {
   title: string;
   episode_id: number;
   opening_crawl: string;
@@ -14,9 +14,9 @@ export type Film = {
   edited: string;
   url: string;
 };
-export type FilmsResponse = {
+export type MovieResponse = {
   count: number;
   next: number | null;
   previous: number | null;
-  results: Film[];
+  results: Movie[];
 };

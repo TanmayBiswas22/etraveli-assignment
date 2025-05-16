@@ -1,27 +1,31 @@
 import React from "react";
-import type { Film } from "../../types";
+import type { Movie } from "../../types";
 
 type MovieListProps = {
-  movies: ReadonlyArray<Film>;
+  movies: ReadonlyArray<Pick<Movie, "title" | "episode_id" | "release_date">>;
+  onClick: (episdoeId: number) => void;
 };
 
-const MovieList = ({ movies }: MovieListProps) => (
+const MovieList = ({ movies, onClick }: MovieListProps) => (
   <div style={{ padding: "1rem" }}>
-    {movies.map((movie) => (
-      <div
-        key={movie.episode_id}
-        style={{
-          padding: "1rem",
-          borderBottom: "1px solid #ccc",
-          cursor: "pointer",
-        }}
-      >
-        <h2>{movie.title}</h2>
-        <p>Episode: {movie.episode_id}</p>
-        <p>Director: {movie.director}</p>
-        <p>Release Date: {movie.release_date}</p>
-      </div>
-    ))}
+    <table>
+      <thead>
+        <tr>
+          <th>Episode</th>
+          <th>Title</th>
+          <th>Release Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {movies.map((movie) => (
+          <tr key={movie.episode_id} onClick={() => onClick(movie.episode_id)}>
+            <td>{`Episode ${movie.episode_id}`}</td>
+            <td>{movie.title}</td>
+            <td>{movie.release_date}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   </div>
 );
 
