@@ -14,20 +14,13 @@ describe("Header", () => {
     expect(sortBy).toBeInTheDocument();
     expect(searchBox).toBeInTheDocument();
   });
+});
 
+describe("MovieList", () => {
   it("should render loading initially", async () => {
     renderWithClient(<Home />);
 
     const loading = await screen.findByText(/loading.../i);
-    expect(loading).toBeInTheDocument();
-  });
-
-  it("should render default message when no movie is selected", async () => {
-    renderWithClient(<Home />);
-
-    const loading = await screen.findByText(
-      /Select a movie to see the description/i
-    );
     expect(loading).toBeInTheDocument();
   });
 
@@ -90,14 +83,54 @@ describe("Header", () => {
 
     expect(rows.length).toBe(matchingMovieNames.length);
 
-    matchingMovieNames.forEach(async (movie) => {
+    for (const movie of matchingMovieNames) {
       const movieElement = await screen.findByText(movie.title);
       expect(movieElement).toBeInTheDocument();
-    });
+    }
 
     nonMatchingMovieNames.forEach((movie) => {
       const movieElement = screen.queryByText(movie.title);
       expect(movieElement).not.toBeInTheDocument();
     });
+  });
+});
+
+describe("MovieDetails", () => {
+  it("should render default message when no movie is selected", async () => {
+    renderWithClient(<Home />);
+
+    const defaultMsg = await screen.findByText(
+      /Select a movie to see the description/i
+    );
+    expect(defaultMsg).toBeInTheDocument();
+  });
+
+  it("should render movie details when a movie is selected", async () => {
+    renderWithClient(<Home />);
+
+    const movie = await screen.findByText(/Return of the Jedi/i);
+    await userEvent.click(movie);
+
+    const defaultMsg = screen.queryByText(
+      /Select a movie to see the description/i
+    );
+
+    const openingCrawl = await screen.findByText(
+      /Luke Skywalker has returned to his home planet/i
+    );
+    const director = await screen.findByText(/Richard Marquand/i);
+    const imdbRating = await screen.findByText(/Internet Movie Database: 83%/i);
+    const rottenTomatoesRating = await screen.findByText(
+      /Rotten Tomatoes: 83%/i
+    );
+    const metaCriticRating = await screen.findByText(/MetaCritic: 58%/i);
+
+    expect(defaultMsg).not.toBeInTheDocument();
+
+    expect(openingCrawl).toBeInTheDocument();
+    expect(director).toBeInTheDocument();
+    expect(imdbRating).toBeInTheDocument();
+    expect(rottenTomatoesRating).toBeInTheDocument();
+    expect(metaCriticRating).toBeInTheDocument();
   });
 });
