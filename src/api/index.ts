@@ -1,7 +1,8 @@
 export const getMovies = async () => {
   const response = await fetch("https://swapi.py4e.com/api/films/?format=json");
   if (!response.ok) {
-    throw new Error("Network response was not ok");
+    const errorData = await response.json();
+    throw new Error(errorData.message || "Something went wrong");
   }
   const data = await response.json();
   return data;

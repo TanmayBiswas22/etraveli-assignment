@@ -3,7 +3,9 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import Home from ".";
 import { renderWithClient } from "@/test/test-utils";
-import { mockMoviesResponse } from "@/mocks/movies";
+import { mockMoviesResponse } from "@/test/mocks/movies";
+import { server } from "@/test/server";
+import { errorHandler } from "@/test/handlers";
 
 describe("Header", () => {
   it("should render SortBy and SearchBox", async () => {
@@ -132,5 +134,15 @@ describe("MovieDetails", () => {
     expect(imdbRating).toBeInTheDocument();
     expect(rottenTomatoesRating).toBeInTheDocument();
     expect(metaCriticRating).toBeInTheDocument();
+  });
+});
+
+describe("Error Handling", () => {
+  it("should render error message when there is an error", async () => {
+    server.use(...errorHandler);
+    renderWithClient(<Home />);
+
+    const errorMessage = await screen.findByText(/Internal Server Error/i);
+    expect(errorMessage).toBeInTheDocument();
   });
 });
