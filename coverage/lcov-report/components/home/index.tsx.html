@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">97.22% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>35/42</span>
+                <span class='fraction'>35/36</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">54.54% </span>
+                <span class="strong">76.92% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>12/22</span>
+                <span class='fraction'>10/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.81% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>9/11</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.5% </span>
+                <span class="strong">97.05% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>33/40</span>
+                <span class='fraction'>33/34</span>
             </div>
         
             
@@ -149,21 +149,18 @@
 <a name='L84'></a><a href='#L84'>84</a>
 <a name='L85'></a><a href='#L85'>85</a>
 <a name='L86'></a><a href='#L86'>86</a>
-<a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a>
-<a name='L89'></a><a href='#L89'>89</a>
-<a name='L90'></a><a href='#L90'>90</a>
-<a name='L91'></a><a href='#L91'>91</a>
-<a name='L92'></a><a href='#L92'>92</a>
-<a name='L93'></a><a href='#L93'>93</a>
-<a name='L94'></a><a href='#L94'>94</a>
-<a name='L95'></a><a href='#L95'>95</a>
-<a name='L96'></a><a href='#L96'>96</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L87'></a><a href='#L87'>87</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">27x</span>
@@ -196,22 +193,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -259,6 +241,12 @@ import MovieList from "../movie-list";
 import MovieDescription from "../movie-description";
 import { useGetMovies } from "../../hooks/useGetMovies";
 import type { Movie } from "../../types";
+import {
+  StyledMovieDescriptionContainer,
+  StyledMovieListContainer,
+  StyledMoviesContainer,
+} from "./styled";
+import { getSortedMovies } from "../../utils/index";
 &nbsp;
 const Home = () =&gt; {
   const { data, isLoading, error } = useGetMovies();
@@ -290,27 +278,12 @@ const Home = () =&gt; {
     setMovieList(filteredMovies ?? <span class="branch-1 cbranch-no" title="branch not covered" >[])</span>;
   };
 &nbsp;
-  const handleSortChange = (sortOption: string) =&gt; {
-    let sortedMovies;
-    if (sortOption === "episode-asc") {
-      sortedMovies =
-        movieList &amp;&amp; [...movieList].sort((a, b) =&gt; a.episode_id - b.episode_id);
-    } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="else path not taken" >E</span>if (sortOption === "episode-desc") {</span>
-<span class="cstat-no" title="statement not covered" >      sortedMovies =</span>
-        movieList &amp;&amp; [...movieList].sort(<span class="fstat-no" title="function not covered" >(a</span>, b) =&gt; <span class="cstat-no" title="statement not covered" >b.episode_id - a.episode_id)</span>;
-    } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span>if (sortOption === "year-asc") {</span>
-<span class="cstat-no" title="statement not covered" >      sortedMovies =</span>
-        movieList &amp;&amp;
-        [...movieList].sort(
-<span class="fstat-no" title="function not covered" >          (a</span>, b) =&gt;
-<span class="cstat-no" title="statement not covered" >            new Date(a.release_date).getFullYear() -</span>
-            new Date(b.release_date).getFullYear()
-        );
-    }
+  const handleSortChange = (sortBy: string) =&gt; {
+    const sortedMovies = getSortedMovies(sortBy, movieList ?? <span class="branch-1 cbranch-no" title="branch not covered" >[])</span>;
     setMovieList(sortedMovies);
   };
 &nbsp;
-  const movieListData =
+  const movieData =
     movieList?.map((movie) =&gt; ({
       title: movie.title,
       episode_id: movie.episode_id,
@@ -326,24 +299,24 @@ const Home = () =&gt; {
   }
 &nbsp;
   return (
-    &lt;div&gt;
+    &lt;&gt;
       &lt;Header
         onSearchInputChange={handleSearch}
         onSortChange={handleSortChange}
       /&gt;
-      &lt;div style={{ display: "flex", minHeight: "80vh", width: "100%" }}&gt;
-        &lt;div style={{ borderRight: "1px solid #ccc", width: "100%" }}&gt;
+      &lt;StyledMoviesContainer&gt;
+        &lt;StyledMovieListContainer&gt;
           &lt;MovieList
-            movies={movieListData}
+            movies={movieData}
             selectedMovie={selectedMovie}
             onClick={handleMovieClick}
           /&gt;
-        &lt;/div&gt;
-        &lt;div style={{ width: "100%" }}&gt;
+        &lt;/StyledMovieListContainer&gt;
+        &lt;StyledMovieDescriptionContainer&gt;
           &lt;MovieDescription movie={selectedMovie} /&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
+        &lt;/StyledMovieDescriptionContainer&gt;
+      &lt;/StyledMoviesContainer&gt;
+    &lt;/&gt;
   );
 };
 &nbsp;
@@ -355,7 +328,7 @@ export default Home;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-17T23:09:30.295Z
+                at 2025-05-17T23:49:33.894Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

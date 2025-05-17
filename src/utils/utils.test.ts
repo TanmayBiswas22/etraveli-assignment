@@ -1,4 +1,5 @@
-import { getAverageRating, getRatingPercentage } from ".";
+import { mockMoviesResponse } from "@/test/mocks/movies";
+import { getAverageRating, getRatingPercentage, getSortedMovies } from ".";
 
 describe("getRatingPercentage", () => {
   it("should convert IMDB rating string to percentage (x10, rounded)", () => {
@@ -62,5 +63,53 @@ describe("getAverageRating", () => {
       { Source: "Metacritic", Value: "90/100" },
     ];
     expect(getAverageRating(ratings)).toBe(92);
+  });
+});
+
+describe("getSortedMovies", () => {
+  it("should sort movies by episode ID in ascending order", () => {
+    const sortedMovies = getSortedMovies(
+      "episode-asc",
+      mockMoviesResponse.results
+    );
+    expect(sortedMovies[0].episode_id).toBe(1);
+    expect(sortedMovies[1].episode_id).toBe(2);
+    expect(sortedMovies[2].episode_id).toBe(3);
+    expect(sortedMovies[3].episode_id).toBe(4);
+    expect(sortedMovies[4].episode_id).toBe(5);
+    expect(sortedMovies[5].episode_id).toBe(6);
+    expect(sortedMovies[6].episode_id).toBe(7);
+  });
+
+  it("should sort movies by episode ID in descending order", () => {
+    const sortedMovies = getSortedMovies(
+      "episode-desc",
+      mockMoviesResponse.results
+    );
+    expect(sortedMovies[0].episode_id).toBe(7);
+    expect(sortedMovies[1].episode_id).toBe(6);
+    expect(sortedMovies[2].episode_id).toBe(5);
+    expect(sortedMovies[3].episode_id).toBe(4);
+    expect(sortedMovies[4].episode_id).toBe(3);
+    expect(sortedMovies[5].episode_id).toBe(2);
+    expect(sortedMovies[6].episode_id).toBe(1);
+  });
+
+  it("should sort movies by release date in ascending order", () => {
+    const sortedMovies = getSortedMovies(
+      "year-asc",
+      mockMoviesResponse.results
+    );
+    expect(sortedMovies[0].release_date).toBe("1977-05-25");
+    expect(sortedMovies[1].release_date).toBe("1980-05-17");
+    expect(sortedMovies[2].release_date).toBe("1983-05-25");
+  });
+
+  it("should return the original array if no valid sort option is provided", () => {
+    const sortedMovies = getSortedMovies(
+      "invalid-sort-option",
+      mockMoviesResponse.results
+    );
+    expect(sortedMovies).toEqual(mockMoviesResponse.results);
   });
 });
