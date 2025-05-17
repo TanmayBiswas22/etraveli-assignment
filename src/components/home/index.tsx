@@ -72,7 +72,10 @@ const Home = () => {
 
   return (
     <div>
-      <Header onChange={handleSearch} onSortChange={handleSortChange} />
+      <Header
+        onSearchInputChange={handleSearch}
+        onSortChange={handleSortChange}
+      />
       <div style={{ display: "flex", minHeight: "80vh", width: "100%" }}>
         <div style={{ borderRight: "1px solid #ccc", width: "100%" }}>
           <MovieList

@@ -3,14 +3,20 @@ import { SearchBox } from "./components/search-box";
 import { StyledHeader } from "./styled";
 
 type HeaderProps = {
-  onChange: (input: string) => void;
+  onSearchInputChange: (input: string) => void;
   onSortChange: (sortOption: string) => void;
 };
-const Header = ({ onChange, onSortChange }: HeaderProps) => (
-  <StyledHeader>
-    <SortBy onSortChange={onSortChange} />
-    <SearchBox onChange={onChange} />
-  </StyledHeader>
-);
+const Header = ({ onSearchInputChange, onSortChange }: HeaderProps) => {
+  const handleSortChange = (sortOption: string) => {
+    console.log("Selected sort option:", sortOption);
+    onSortChange(sortOption);
+  };
+  return (
+    <StyledHeader>
+      <SortBy onSortChange={handleSortChange} />
+      <SearchBox onChange={onSearchInputChange} />
+    </StyledHeader>
+  );
+};
 
 export default Header;

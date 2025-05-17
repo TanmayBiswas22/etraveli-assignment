@@ -34,10 +34,3 @@ export const getAverageRating = (
 
   return Math.round(totalPercentage / totalRatings);
 };
-
-export const getStarRating = (percentage: number) => {
-  const filledStars = Math.round((percentage / 100) * 10);
-  const emptyStars = 10 - filledStars;
-
-  return "★".repeat(filledStars) + "☆".repeat(emptyStars);
-};
