@@ -7,13 +7,9 @@ type HeaderProps = {
   onSortChange: (sortOption: string) => void;
 };
 const Header = ({ onSearchInputChange, onSortChange }: HeaderProps) => {
-  const handleSortChange = (sortOption: string) => {
-    console.log("Selected sort option:", sortOption);
-    onSortChange(sortOption);
-  };
   return (
     <StyledHeader>
-      <SortBy onSortChange={handleSortChange} />
+      <SortBy onSortChange={onSortChange} />
       <SearchBox onChange={onSearchInputChange} />
     </StyledHeader>
   );

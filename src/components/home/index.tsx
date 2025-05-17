@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import Header from "../header";
 import MovieList from "../movie-list";
 import MovieDescription from "../movie-description";
-import { useGetFilms } from "../../hooks/useGetMovies";
+import { useGetMovies } from "../../hooks/useGetMovies";
 import type { Movie } from "../../types";
 
 const Home = () => {
-  const { data, isLoading, error } = useGetFilms();
+  const { data, isLoading, error } = useGetMovies();
 
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
