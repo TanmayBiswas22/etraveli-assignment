@@ -3,6 +3,12 @@ import type { Movie } from "../../types";
 import { getAverageRating } from "../../utils";
 import { Ratings } from "../ratings";
 import { StarRating } from "../star-rating";
+import {
+  StyledAvgRatingContainer,
+  StyledImage,
+  StyledMovieDescription,
+  StyledMovieDescriptionContainer,
+} from "./styled";
 
 type MovieDescriptionPropsType = {
   movie: Movie | null;
@@ -19,35 +25,23 @@ const MovieDescription = ({ movie }: MovieDescriptionPropsType) => {
   const { data: imdbData } = useGetImdbDetails(movie);
   const avgRating = getAverageRating(imdbData?.Ratings ?? []);
   return (
-    <div style={{ padding: "0.5rem" }}>
-      <div>
-        <h2>{`Episode ${movie.episode_id} - ${movie.title}`}</h2>
-      </div>
+    <StyledMovieDescriptionContainer>
+      <h3>{`Episode ${movie.episode_id} - ${movie.title}`}</h3>
 
-      <div style={{ display: "flex", gap: "1rem" }}>
-        <img
-          style={{ height: "200px", width: "200px" }}
-          src={imdbData?.Poster}
-        ></img>
+      <StyledMovieDescription>
+        <StyledImage src={imdbData?.Poster}></StyledImage>
         <p>{movie.opening_crawl}</p>
-      </div>
+      </StyledMovieDescription>
 
       <p>
         <strong>Directed by:</strong> {movie.director}
       </p>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "1rem",
-          marginBottom: "1rem",
-        }}
-      >
+      <StyledAvgRatingContainer>
         Average Rating: <StarRating percentage={avgRating} />
-      </div>
+      </StyledAvgRatingContainer>
 
       <Ratings ratings={imdbData?.Ratings ?? []} />
-    </div>
+    </StyledMovieDescriptionContainer>
   );
 };
 export default MovieDescription;

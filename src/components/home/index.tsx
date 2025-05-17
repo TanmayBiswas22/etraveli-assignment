@@ -4,6 +4,12 @@ import MovieList from "../movie-list";
 import MovieDescription from "../movie-description";
 import { useGetMovies } from "../../hooks/useGetMovies";
 import type { Movie } from "../../types";
+import {
+  StyledMovieDescriptionContainer,
+  StyledMovieListContainer,
+  StyledMoviesContainer,
+} from "./styled";
+import { getSortedMovies } from "../../utils/index";
 
 const Home = () => {
   const { data, isLoading, error } = useGetMovies();
@@ -35,27 +41,12 @@ const Home = () => {
     setMovieList(filteredMovies ?? []);
   };
 
-  const handleSortChange = (sortOption: string) => {
-    let sortedMovies;
-    if (sortOption === "episode-asc") {
-      sortedMovies =
-        movieList && [...movieList].sort((a, b) => a.episode_id - b.episode_id);
-    } else if (sortOption === "episode-desc") {
-      sortedMovies =
-        movieList && [...movieList].sort((a, b) => b.episode_id - a.episode_id);
-    } else if (sortOption === "year-asc") {
-      sortedMovies =
-        movieList &&
-        [...movieList].sort(
-          (a, b) =>
-            new Date(a.release_date).getFullYear() -
-            new Date(b.release_date).getFullYear()
-        );
-    }
+  const handleSortChange = (sortBy: string) => {
+    const sortedMovies = getSortedMovies(sortBy, movieList ?? []);
     setMovieList(sortedMovies);
   };
 
-  const movieListData =
+  const movieData =
     movieList?.map((movie) => ({
       title: movie.title,
       episode_id: movie.episode_id,
@@ -71,24 +62,24 @@ const Home = () => {
   }
 
   return (
-    <div>
+    <>
       <Header
         onSearchInputChange={handleSearch}
         onSortChange={handleSortChange}
       />
-      <div style={{ display: "flex", minHeight: "80vh", width: "100%" }}>
-        <div style={{ borderRight: "1px solid #ccc", width: "100%" }}>
+      <StyledMoviesContainer>
+        <StyledMovieListContainer>
           <MovieList
-            movies={movieListData}
+            movies={movieData}
             selectedMovie={selectedMovie}
             onClick={handleMovieClick}
           />
-        </div>
-        <div style={{ width: "100%" }}>
+        </StyledMovieListContainer>
+        <StyledMovieDescriptionContainer>
           <MovieDescription movie={selectedMovie} />
-        </div>
-      </div>
-    </div>
+        </StyledMovieDescriptionContainer>
+      </StyledMoviesContainer>
+    </>
   );
 };
 

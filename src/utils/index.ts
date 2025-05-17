@@ -1,3 +1,5 @@
+import { Movie } from "@/types";
+
 export const getRatingPercentage = (source: string, value: string) => {
   switch (source) {
     case "Internet Movie Database": {
@@ -33,4 +35,21 @@ export const getAverageRating = (
   }
 
   return Math.round(totalPercentage / totalRatings);
+};
+
+export const getSortedMovies = (sortBy: string, movies: Movie[]) => {
+  switch (sortBy) {
+    case "episode-asc":
+      return [...movies].sort((a, b) => a.episode_id - b.episode_id);
+    case "episode-desc":
+      return [...movies].sort((a, b) => b.episode_id - a.episode_id);
+    case "year-asc":
+      return [...movies].sort(
+        (a, b) =>
+          new Date(a.release_date).getFullYear() -
+          new Date(b.release_date).getFullYear()
+      );
+    default:
+      return movies;
+  }
 };

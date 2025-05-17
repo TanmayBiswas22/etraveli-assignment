@@ -3,11 +3,12 @@ import type { Movie } from "../../types";
 import {
   StyledTable,
   StyledTableCell,
+  StyledTableCellRightAlign,
   StyledTableHead,
-  StyledTableHeader,
+  StyledTableHeaderLeftAlign,
+  StyledTableHeaderRightAlign,
   StyledTableRow,
 } from "./styled";
-import { useGetImdbDetails } from "../../hooks/useGetImdbDetails";
 
 type MovieListProps = {
   movies: ReadonlyArray<Pick<Movie, "title" | "episode_id" | "release_date">>;
@@ -23,18 +24,20 @@ const MovieList = ({ movies, selectedMovie, onClick }: MovieListProps) => {
       </div>
     );
   }
-  // const { data: imdbData, isLoading: isImdbLoading } = useGetImdbDetails(movie);
 
   return (
     <StyledTable>
       <StyledTableHead>
         <StyledTableRow>
-          <StyledTableHeader>Episode</StyledTableHeader>
-          <StyledTableHeader>Title</StyledTableHeader>
-          <StyledTableHeader>Release Date</StyledTableHeader>
+          <StyledTableHeaderLeftAlign>Episode</StyledTableHeaderLeftAlign>
+          <StyledTableHeaderLeftAlign>Title</StyledTableHeaderLeftAlign>
+          <StyledTableHeaderRightAlign>
+            Release Date
+          </StyledTableHeaderRightAlign>
         </StyledTableRow>
       </StyledTableHead>
       <tbody>
+        {movies.length === 0 && <p>No movies found</p>}
         {movies.map((movie) => (
           <StyledTableRow
             key={movie.episode_id}
@@ -43,7 +46,9 @@ const MovieList = ({ movies, selectedMovie, onClick }: MovieListProps) => {
           >
             <StyledTableCell>{`Episode ${movie.episode_id}`}</StyledTableCell>
             <StyledTableCell>{movie.title}</StyledTableCell>
-            <StyledTableCell>{movie.release_date}</StyledTableCell>
+            <StyledTableCellRightAlign>
+              {movie.release_date}
+            </StyledTableCellRightAlign>
           </StyledTableRow>
         ))}
       </tbody>
