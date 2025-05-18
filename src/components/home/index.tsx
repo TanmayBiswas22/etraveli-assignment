@@ -9,10 +9,16 @@ import {
   StyledMovieListContainer,
   StyledMoviesContainer,
 } from "./styled";
-import { getMoviesInfo, getSortedMovies } from "../../utils/index";
+import {
+  getFilteredMovies,
+  getMoviesInfo,
+  getSortedMovies,
+} from "../../utils/index";
 import { useGetImdbDetails } from "../../hooks/useGetRatings";
 
 const Home = () => {
+  const [sortBy, setSortBy] = useState("");
+  const [seacrhKey, setSearchKey] = useState<string | null>(null);
   const { data, isLoading, error } = useGetMovies();
 
   /*Assuming here that the omdb api cannot accept list of movies. So fetching details for each movie one by one */
@@ -24,13 +30,13 @@ const Home = () => {
 
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
-  const [movieList, setMovieList] = useState<Movie[]>();
+  // const [movieList, setMovieList] = useState<Movie[]>();
 
-  useEffect(() => {
-    if (!isLoading) {
-      setMovieList(data?.results ?? []);
-    }
-  }, [isLoading, data]);
+  // useEffect(() => {
+  //   if (!isLoading) {
+  //     setMovieList(data?.results ?? []);
+  //   }
+  // }, [isLoading, data]);
 
   const handleMovieClick = (episodeId: number) => {
     const movie = data?.results.find((movie) => movie.episode_id === episodeId);
@@ -43,15 +49,11 @@ const Home = () => {
 
   const handleSearch = (searchTerm: string) => {
     setSelectedMovie(null);
-    const filteredMovies = data?.results.filter((movie) =>
-      movie.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setMovieList(filteredMovies ?? []);
+    setSearchKey(searchTerm);
   };
 
   const handleSortChange = (sortBy: string) => {
-    const sortedMovies = getSortedMovies(sortBy, movieList ?? []);
-    setMovieList(sortedMovies);
+    setSortBy(sortBy);
   };
 
   if (isLoading || isLoadingImddbDetails) {
@@ -66,7 +68,11 @@ const Home = () => {
     return <div>Error fetching IMDB details</div>;
   }
 
-  const moviesInfoWithRatings = getMoviesInfo(movieList ?? [], imdbDetails);
+  const moviesInfoWithRatings = getMoviesInfo(data?.results ?? [], imdbDetails);
+
+  const filteredMovies = getFilteredMovies(seacrhKey, moviesInfoWithRatings);
+
+  const sortedMovies = getSortedMovies(sortBy, filteredMovies);
 
   const selectedMovieDetails = moviesInfoWithRatings.find(
     (movie) => movie.episodeId === selectedMovie?.episode_id
@@ -82,7 +88,7 @@ const Home = () => {
         <StyledMovieListContainer>
           <MovieList
             selectedMovie={selectedMovie}
-            moviesInfoWithRating={moviesInfoWithRatings}
+            moviesInfoWithRating={sortedMovies}
             onClick={handleMovieClick}
           />
         </StyledMovieListContainer>

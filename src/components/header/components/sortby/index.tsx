@@ -30,6 +30,7 @@ const SortBy = ({ onSortChange }: SortByProps) => {
         <option value="episode-asc">Episode ascending</option>
         <option value="episode-desc">Episode descending</option>
         <option value="year-asc">Year</option>
+        <option value="rating">Rating</option>
       </select>
     </div>
   );

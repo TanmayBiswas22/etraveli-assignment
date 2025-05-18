@@ -37,21 +37,44 @@ export const getAverageRating = (
   return Math.round(totalPercentage / totalRatings);
 };
 
-export const getSortedMovies = (sortBy: string, movies: Movie[]) => {
+export const getSortedMovies = (
+  sortBy: string,
+  movies: MovieInfoWithRating[]
+) => {
   switch (sortBy) {
     case "episode-asc":
-      return [...movies].sort((a, b) => a.episode_id - b.episode_id);
+      return [...movies].sort((a, b) => a.episodeId - b.episodeId);
     case "episode-desc":
-      return [...movies].sort((a, b) => b.episode_id - a.episode_id);
+      return [...movies].sort((a, b) => b.episodeId - a.episodeId);
     case "year-asc":
       return [...movies].sort(
         (a, b) =>
-          new Date(a.release_date).getFullYear() -
-          new Date(b.release_date).getFullYear()
+          new Date(a.releaseDate).getFullYear() -
+          new Date(b.releaseDate).getFullYear()
       );
+    case "rating":
+      return [...movies].sort((a, b) => {
+        const aRating = a.avgRating || 0;
+        const bRating = b.avgRating || 0;
+
+        if (aRating > bRating) return -1;
+        if (aRating < bRating) return 1;
+        return 0;
+      });
     default:
       return movies;
   }
+};
+
+export const getFilteredMovies = (
+  searchKey: string | null,
+  moviesInfoWithRatings: MovieInfoWithRating[]
+) => {
+  return searchKey
+    ? moviesInfoWithRatings.filter((movie) =>
+        movie.title.toLowerCase().includes(searchKey.toLowerCase() ?? "")
+      )
+    : moviesInfoWithRatings;
 };
 
 export const getMoviesInfo = (
