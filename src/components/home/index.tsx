@@ -10,9 +10,16 @@ import {
   StyledMoviesContainer,
 } from "./styled";
 import { getSortedMovies } from "../../utils/index";
+import { useGetRatings } from "../../hooks/useGetRatings";
 
 const Home = () => {
   const { data, isLoading, error } = useGetMovies();
+
+  const {
+    imdbDetails,
+    isLoading: isLoadingImddbDetails,
+    movieRatings,
+  } = useGetRatings(data?.results ?? []);
 
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
@@ -53,7 +60,7 @@ const Home = () => {
       release_date: movie.release_date,
     })) ?? [];
 
-  if (isLoading) {
+  if (isLoading || isLoadingImddbDetails) {
     return <div>Loading...</div>;
   }
 
@@ -72,6 +79,7 @@ const Home = () => {
           <MovieList
             movies={movieData}
             selectedMovie={selectedMovie}
+            imdbDetails={imdbDetails}
             onClick={handleMovieClick}
           />
         </StyledMovieListContainer>
