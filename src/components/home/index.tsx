@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Header from "../header";
 import MovieList from "../movie-list";
 import MovieDescription from "../movie-description";
@@ -29,14 +29,6 @@ const Home = () => {
   } = useGetImdbDetails(data?.results ?? []);
 
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
-
-  // const [movieList, setMovieList] = useState<Movie[]>();
-
-  // useEffect(() => {
-  //   if (!isLoading) {
-  //     setMovieList(data?.results ?? []);
-  //   }
-  // }, [isLoading, data]);
 
   const handleMovieClick = (episodeId: number) => {
     const movie = data?.results.find((movie) => movie.episode_id === episodeId);
