@@ -9,8 +9,6 @@ import {
   StyledTableHeaderRightAlign,
   StyledTableRow,
 } from "./styled";
-import { getAverageRating } from "../../utils";
-import { StyledAvgRatingContainer } from "../movie-description/styled";
 import { StarRating } from "../star-rating";
 
 type MovieListProps = {
