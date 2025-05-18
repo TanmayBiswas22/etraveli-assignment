@@ -6,7 +6,7 @@ import Header from "./index";
 describe("Header", () => {
   it("renders SortBy and SearchBox", () => {
     render(<Header onSearchInputChange={jest.fn()} onSortChange={jest.fn()} />);
-    expect(screen.getByText("Sort by:")).toBeInTheDocument();
+    expect(screen.getByText(/sort by/i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Search...")).toBeInTheDocument();
   });
 
@@ -16,6 +16,7 @@ describe("Header", () => {
     expect(screen.getByText("Episode ascending")).toBeInTheDocument();
     expect(screen.getByText("Episode descending")).toBeInTheDocument();
     expect(screen.getByText("Year")).toBeInTheDocument();
+    expect(screen.getByText("Rating")).toBeInTheDocument();
   });
 
   it("should call onSortChange when SortBy year option is clicked", async () => {
