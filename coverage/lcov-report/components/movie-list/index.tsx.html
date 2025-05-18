@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">90% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>9/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">90% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>9/10</span>
             </div>
         
             
@@ -122,7 +122,20 @@
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
 <a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -135,14 +148,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -164,9 +184,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">74x</span>
+<span class="cline-any cline-yes">74x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -182,7 +208,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from "react";
-import type { Movie } from "../../types";
+import type { Movie, MovieInfoWithRating } from "../../types";
 import {
   StyledTable,
   StyledTableCell,
@@ -192,16 +218,23 @@ import {
   StyledTableHeaderRightAlign,
   StyledTableRow,
 } from "./styled";
+import { getAverageRating } from "../../utils";
+import { StyledAvgRatingContainer } from "../movie-description/styled";
+import { StarRating } from "../star-rating";
 &nbsp;
 type MovieListProps = {
-  movies: ReadonlyArray&lt;Pick&lt;Movie, "title" | "episode_id" | "release_date"&gt;&gt;;
   selectedMovie: Movie | null;
+  moviesInfoWithRating: MovieInfoWithRating[];
   onClick: (episdoeId: number) =&gt; void;
 };
 &nbsp;
-const MovieList = ({ movies, selectedMovie, onClick }: MovieListProps) =&gt; {
-  if (movies.length === 0) {
-    return (
+const MovieList = ({
+  selectedMovie,
+  moviesInfoWithRating,
+  onClick,
+}: MovieListProps) =&gt; {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (moviesInfoWithRating.length === 0) {
+<span class="cstat-no" title="statement not covered" >    return (</span>
       &lt;div style={{ padding: "1rem" }}&gt;
         &lt;p&gt;No movies found&lt;/p&gt;
       &lt;/div&gt;
@@ -214,26 +247,32 @@ const MovieList = ({ movies, selectedMovie, onClick }: MovieListProps) =&gt; {
         &lt;StyledTableRow&gt;
           &lt;StyledTableHeaderLeftAlign&gt;Episode&lt;/StyledTableHeaderLeftAlign&gt;
           &lt;StyledTableHeaderLeftAlign&gt;Title&lt;/StyledTableHeaderLeftAlign&gt;
+          &lt;StyledTableHeaderLeftAlign&gt;Rating&lt;/StyledTableHeaderLeftAlign&gt;
           &lt;StyledTableHeaderRightAlign&gt;
             Release Date
           &lt;/StyledTableHeaderRightAlign&gt;
         &lt;/StyledTableRow&gt;
       &lt;/StyledTableHead&gt;
       &lt;tbody&gt;
-        {movies.length === 0 &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >&lt;p&gt;No movies found&lt;/p&gt;}</span>
-        {movies.map((movie) =&gt; (
-          &lt;StyledTableRow
-            key={movie.episode_id}
-            isSelectedMovie={selectedMovie?.episode_id === movie.episode_id}
-            onClick={() =&gt; onClick(movie.episode_id)}
-          &gt;
-            &lt;StyledTableCell&gt;{`Episode ${movie.episode_id}`}&lt;/StyledTableCell&gt;
-            &lt;StyledTableCell&gt;{movie.title}&lt;/StyledTableCell&gt;
-            &lt;StyledTableCellRightAlign&gt;
-              {movie.release_date}
-            &lt;/StyledTableCellRightAlign&gt;
-          &lt;/StyledTableRow&gt;
-        ))}
+        {moviesInfoWithRating.map((movie) =&gt; {
+          const { episodeId, title, avgRating, releaseDate } = movie;
+          return (
+            &lt;StyledTableRow
+              key={movie.episodeId}
+              isSelectedMovie={selectedMovie?.episode_id === movie.episodeId}
+              onClick={() =&gt; onClick(episodeId)}
+            &gt;
+              &lt;StyledTableCell&gt;{`${episodeId}`}&lt;/StyledTableCell&gt;
+              &lt;StyledTableCell&gt;{title}&lt;/StyledTableCell&gt;
+              &lt;StyledTableCell&gt;
+                &lt;StarRating percentage={avgRating} /&gt;
+              &lt;/StyledTableCell&gt;
+              &lt;StyledTableCellRightAlign&gt;
+                {releaseDate}
+              &lt;/StyledTableCellRightAlign&gt;
+            &lt;/StyledTableRow&gt;
+          );
+        })}
       &lt;/tbody&gt;
     &lt;/StyledTable&gt;
   );
@@ -247,7 +286,7 @@ export default MovieList;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-17T23:58:07.609Z
+                at 2025-05-18T12:15:36.221Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

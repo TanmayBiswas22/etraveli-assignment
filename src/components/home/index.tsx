@@ -9,17 +9,18 @@ import {
   StyledMovieListContainer,
   StyledMoviesContainer,
 } from "./styled";
-import { getSortedMovies } from "../../utils/index";
-import { useGetRatings } from "../../hooks/useGetRatings";
+import { getMoviesInfo, getSortedMovies } from "../../utils/index";
+import { useGetImdbDetails } from "../../hooks/useGetRatings";
 
 const Home = () => {
   const { data, isLoading, error } = useGetMovies();
 
+  /*Assuming here that the omdb api cannot accept list of movies. So fetching details for each movie one by one */
   const {
     imdbDetails,
     isLoading: isLoadingImddbDetails,
-    movieRatings,
-  } = useGetRatings(data?.results ?? []);
+    isError: isErrorFetchingImdbDetails,
+  } = useGetImdbDetails(data?.results ?? []);
 
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
@@ -53,13 +54,6 @@ const Home = () => {
     setMovieList(sortedMovies);
   };
 
-  const movieData =
-    movieList?.map((movie) => ({
-      title: movie.title,
-      episode_id: movie.episode_id,
-      release_date: movie.release_date,
-    })) ?? [];
-
   if (isLoading || isLoadingImddbDetails) {
     return <div>Loading...</div>;
   }
@@ -67,6 +61,16 @@ const Home = () => {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
+
+  if (isErrorFetchingImdbDetails) {
+    return <div>Error fetching IMDB details</div>;
+  }
+
+  const moviesInfoWithRatings = getMoviesInfo(movieList ?? [], imdbDetails);
+
+  const selectedMovieDetails = moviesInfoWithRatings.find(
+    (movie) => movie.episodeId === selectedMovie?.episode_id
+  );
 
   return (
     <>
@@ -77,14 +81,19 @@ const Home = () => {
       <StyledMoviesContainer>
         <StyledMovieListContainer>
           <MovieList
-            movies={movieData}
             selectedMovie={selectedMovie}
-            imdbDetails={imdbDetails}
+            moviesInfoWithRating={moviesInfoWithRatings}
             onClick={handleMovieClick}
           />
         </StyledMovieListContainer>
         <StyledMovieDescriptionContainer>
-          <MovieDescription movie={selectedMovie} />
+          {selectedMovieDetails ? (
+            <MovieDescription selectedMovieDetails={selectedMovieDetails} />
+          ) : (
+            <p style={{ padding: "1rem" }}>
+              Select a movie to see the description
+            </p>
+          )}
         </StyledMovieDescriptionContainer>
       </StyledMoviesContainer>
     </>

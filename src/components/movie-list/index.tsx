@@ -1,5 +1,5 @@
 import React from "react";
-import type { Movie } from "../../types";
+import type { Movie, MovieInfoWithRating } from "../../types";
 import {
   StyledTable,
   StyledTableCell,
@@ -14,19 +14,17 @@ import { StyledAvgRatingContainer } from "../movie-description/styled";
 import { StarRating } from "../star-rating";
 
 type MovieListProps = {
-  movies: ReadonlyArray<Pick<Movie, "title" | "episode_id" | "release_date">>;
   selectedMovie: Movie | null;
-  imdbDetails: any;
+  moviesInfoWithRating: MovieInfoWithRating[];
   onClick: (episdoeId: number) => void;
 };
 
 const MovieList = ({
-  movies,
   selectedMovie,
-  imdbDetails,
+  moviesInfoWithRating,
   onClick,
 }: MovieListProps) => {
-  if (movies.length === 0) {
+  if (moviesInfoWithRating.length === 0) {
     return (
       <div style={{ padding: "1rem" }}>
         <p>No movies found</p>
@@ -47,26 +45,21 @@ const MovieList = ({
         </StyledTableRow>
       </StyledTableHead>
       <tbody>
-        {movies.length === 0 && <p>No movies found</p>}
-        {movies.map((movie) => {
-          const movieDetails = imdbDetails.find((detail: any) =>
-            detail?.Title?.includes(movie.title)
-          );
-
-          const avgRating = getAverageRating(movieDetails?.Ratings ?? []);
+        {moviesInfoWithRating.map((movie) => {
+          const { episodeId, title, avgRating, releaseDate } = movie;
           return (
             <StyledTableRow
-              key={movie.episode_id}
-              isSelectedMovie={selectedMovie?.episode_id === movie.episode_id}
-              onClick={() => onClick(movie.episode_id)}
+              key={movie.episodeId}
+              isSelectedMovie={selectedMovie?.episode_id === movie.episodeId}
+              onClick={() => onClick(episodeId)}
             >
-              <StyledTableCell>{`${movie.episode_id}`}</StyledTableCell>
-              <StyledTableCell>{movie.title}</StyledTableCell>
+              <StyledTableCell>{`${episodeId}`}</StyledTableCell>
+              <StyledTableCell>{title}</StyledTableCell>
               <StyledTableCell>
                 <StarRating percentage={avgRating} />
               </StyledTableCell>
               <StyledTableCellRightAlign>
-                {movie.release_date}
+                {releaseDate}
               </StyledTableCellRightAlign>
             </StyledTableRow>
           );

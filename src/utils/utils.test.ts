@@ -1,5 +1,10 @@
-import { mockMoviesResponse } from "@/test/mocks/movies";
-import { getAverageRating, getRatingPercentage, getSortedMovies } from ".";
+import { mockImdbDetails, mockMoviesResponse } from "@/test/mocks/movies";
+import {
+  getAverageRating,
+  getMoviesInfo,
+  getRatingPercentage,
+  getSortedMovies,
+} from ".";
 
 describe("getRatingPercentage", () => {
   it("should convert IMDB rating string to percentage (x10, rounded)", () => {
@@ -111,5 +116,39 @@ describe("getSortedMovies", () => {
       mockMoviesResponse.results
     );
     expect(sortedMovies).toEqual(mockMoviesResponse.results);
+  });
+});
+
+describe("getMoviesInfo", () => {
+  it("should return an array of movies with imdb details", () => {
+    const movie = [mockMoviesResponse.results[0]];
+    const result = getMoviesInfo(movie, mockImdbDetails);
+    expect(result).toEqual([
+      {
+        episodeId: 4,
+        title: "A New Hope",
+        avgRating: 90,
+        director: "George Lucas",
+        releaseDate: "1977-05-25",
+        poster:
+          "https://m.media-amazon.com/images/M/MV5BOGUwMDk0Y2MtNjBlNi00NmRiLTk2MWYtMGMyMDlhYmI4ZDBjXkEyXkFqcGc@._V1_SX300.jpg",
+        openingCrawl:
+          "It is a period of civil war.\r\nRebel spaceships, striking\r\nfrom a hidden base, have won\r\ntheir first victory against\r\nthe evil Galactic Empire.\r\n\r\nDuring the battle, Rebel\r\nspies managed to steal secret\r\nplans to the Empire's\r\nultimate weapon, the DEATH\r\nSTAR, an armored space\r\nstation with enough power\r\nto destroy an entire planet.\r\n\r\nPursued by the Empire's\r\nsinister agents, Princess\r\nLeia races home aboard her\r\nstarship, custodian of the\r\nstolen plans that can save her\r\npeople and restore\r\nfreedom to the galaxy....",
+        ratings: [
+          {
+            Source: "Internet Movie Database",
+            Value: "8.6/10",
+          },
+          {
+            Source: "Rotten Tomatoes",
+            Value: "94%",
+          },
+          {
+            Source: "Metacritic",
+            Value: "90/100",
+          },
+        ],
+      },
+    ]);
   });
 });

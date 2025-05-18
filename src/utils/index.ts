@@ -1,4 +1,4 @@
-import { Movie } from "@/types";
+import { Movie, MovieImdbDetails, MovieInfoWithRating } from "@/types";
 
 export const getRatingPercentage = (source: string, value: string) => {
   switch (source) {
@@ -52,4 +52,30 @@ export const getSortedMovies = (sortBy: string, movies: Movie[]) => {
     default:
       return movies;
   }
+};
+
+export const getMoviesInfo = (
+  movie: Movie[],
+  imdbDetails: MovieImdbDetails[]
+): MovieInfoWithRating[] => {
+  const movieData = movie.map((movie) => ({
+    title: movie.title,
+    episodeId: movie.episode_id,
+    releaseDate: movie.release_date,
+    openingCrawl: movie.opening_crawl,
+    director: movie.director,
+  }));
+
+  const moviesWithRatings = movieData.map((movie) => {
+    const movieDetails = imdbDetails.find((detail) =>
+      detail?.Title?.includes(movie.title)
+    );
+
+    const poster = movieDetails?.Poster ?? "";
+    const ratings = movieDetails?.Ratings ?? [];
+    const avgRating = getAverageRating(movieDetails?.Ratings ?? []);
+    return { ...movie, avgRating, poster, ratings };
+  });
+
+  return moviesWithRatings;
 };

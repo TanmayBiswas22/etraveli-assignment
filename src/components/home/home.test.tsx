@@ -55,9 +55,7 @@ describe("MovieList", () => {
     expect(rows.length).toBe(sortedMovieEpisodeNumbers.length);
     rows.forEach((row, index) => {
       const cells = within(row).getAllByRole("cell");
-      expect(cells[0]).toHaveTextContent(
-        `Episode ${sortedMovieEpisodeNumbers[index]}`
-      );
+      expect(cells[0]).toHaveTextContent(`${sortedMovieEpisodeNumbers[index]}`);
     });
   });
 

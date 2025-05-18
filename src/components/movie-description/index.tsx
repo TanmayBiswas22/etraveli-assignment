@@ -1,6 +1,4 @@
-import { useGetImdbDetails } from "../../hooks/useGetImdbDetails";
-import type { Movie } from "../../types";
-import { getAverageRating } from "../../utils";
+import type { MovieInfoWithRating } from "../../types";
 import { Ratings } from "../ratings";
 import { StarRating } from "../star-rating";
 import {
@@ -11,10 +9,12 @@ import {
 } from "./styled";
 
 type MovieDescriptionPropsType = {
-  movie: Movie | null;
+  selectedMovieDetails: MovieInfoWithRating;
 };
-const MovieDescription = ({ movie }: MovieDescriptionPropsType) => {
-  if (!movie) {
+const MovieDescription = ({
+  selectedMovieDetails,
+}: MovieDescriptionPropsType) => {
+  if (!selectedMovieDetails) {
     return (
       <div style={{ padding: "1rem" }}>
         Select a movie to see the description
@@ -22,25 +22,32 @@ const MovieDescription = ({ movie }: MovieDescriptionPropsType) => {
     );
   }
 
-  const { data: imdbData } = useGetImdbDetails(movie);
-  const avgRating = getAverageRating(imdbData?.Ratings ?? []);
+  const {
+    episodeId,
+    title,
+    director,
+    openingCrawl,
+    avgRating,
+    poster,
+    ratings,
+  } = selectedMovieDetails;
   return (
     <StyledMovieDescriptionContainer>
-      <h3>{`Episode ${movie.episode_id} - ${movie.title}`}</h3>
+      <h3>{`Episode ${episodeId} - ${title}`}</h3>
 
       <StyledMovieDescription>
-        <StyledImage src={imdbData?.Poster}></StyledImage>
-        <p>{movie.opening_crawl}</p>
+        <StyledImage src={poster}></StyledImage>
+        <p>{openingCrawl}</p>
       </StyledMovieDescription>
 
       <p>
-        <strong>Directed by:</strong> {movie.director}
+        <strong>Directed by:</strong> {director}
       </p>
       <StyledAvgRatingContainer>
         Average Rating: <StarRating percentage={avgRating} />
       </StyledAvgRatingContainer>
 
-      <Ratings ratings={imdbData?.Ratings ?? []} />
+      <Ratings ratings={ratings ?? []} />
     </StyledMovieDescriptionContainer>
   );
 };

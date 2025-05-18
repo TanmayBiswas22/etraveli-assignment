@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">88.88% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>12/12</span>
+                <span class='fraction'>8/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>1/3</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">88.88% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/12</span>
+                <span class='fraction'>8/9</span>
             </div>
         
             
@@ -110,12 +110,17 @@
 <a name='L45'></a><a href='#L45'>45</a>
 <a name='L46'></a><a href='#L46'>46</a>
 <a name='L47'></a><a href='#L47'>47</a>
-<a name='L48'></a><a href='#L48'>48</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -126,22 +131,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -157,9 +150,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useGetImdbDetails } from "../../hooks/useGetImdbDetails";
-import type { Movie } from "../../types";
-import { getAverageRating } from "../../utils";
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { MovieInfoWithRating } from "../../types";
 import { Ratings } from "../ratings";
 import { StarRating } from "../star-rating";
 import {
@@ -170,36 +182,45 @@ import {
 } from "./styled";
 &nbsp;
 type MovieDescriptionPropsType = {
-  movie: Movie | null;
+  selectedMovieDetails: MovieInfoWithRating;
 };
-const MovieDescription = ({ movie }: MovieDescriptionPropsType) =&gt; {
-  if (!movie) {
-    return (
+const MovieDescription = ({
+  selectedMovieDetails,
+}: MovieDescriptionPropsType) =&gt; {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!selectedMovieDetails) {
+<span class="cstat-no" title="statement not covered" >    return (</span>
       &lt;div style={{ padding: "1rem" }}&gt;
         Select a movie to see the description
       &lt;/div&gt;
     );
   }
 &nbsp;
-  const { data: imdbData } = useGetImdbDetails(movie);
-  const avgRating = getAverageRating(imdbData?.Ratings ?? []);
+  const {
+    episodeId,
+    title,
+    director,
+    openingCrawl,
+    avgRating,
+    poster,
+    ratings,
+  } = selectedMovieDetails;
   return (
     &lt;StyledMovieDescriptionContainer&gt;
-      &lt;h3&gt;{`Episode ${movie.episode_id} - ${movie.title}`}&lt;/h3&gt;
+      &lt;h3&gt;{`Episode ${episodeId} - ${title}`}&lt;/h3&gt;
 &nbsp;
       &lt;StyledMovieDescription&gt;
-        &lt;StyledImage src={imdbData?.Poster}&gt;&lt;/StyledImage&gt;
-        &lt;p&gt;{movie.opening_crawl}&lt;/p&gt;
+        &lt;StyledImage src={poster}&gt;&lt;/StyledImage&gt;
+        &lt;p&gt;{openingCrawl}&lt;/p&gt;
       &lt;/StyledMovieDescription&gt;
 &nbsp;
       &lt;p&gt;
-        &lt;strong&gt;Directed by:&lt;/strong&gt; {movie.director}
+        &lt;strong&gt;Directed by:&lt;/strong&gt; {director}
       &lt;/p&gt;
       &lt;StyledAvgRatingContainer&gt;
         Average Rating: &lt;StarRating percentage={avgRating} /&gt;
       &lt;/StyledAvgRatingContainer&gt;
 &nbsp;
-      &lt;Ratings ratings={imdbData?.Ratings ?? []} /&gt;
+      &lt;Ratings ratings={ratings ?? <span class="branch-1 cbranch-no" title="branch not covered" >[]}</span> /&gt;
     &lt;/StyledMovieDescriptionContainer&gt;
   );
 };
@@ -211,7 +232,7 @@ export default MovieDescription;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-17T23:58:07.609Z
+                at 2025-05-18T12:15:36.221Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
